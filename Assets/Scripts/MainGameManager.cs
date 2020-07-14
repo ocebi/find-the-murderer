@@ -46,8 +46,6 @@ public class MainGameManager : MonoBehaviourPunCallbacks
             string playerList = "";
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                //playerList = displayPlayersPanel.GetComponentInChildren<Text>().text;
-                //print(playerList);
                 playerList += "\n" + p.NickName.ToString();
             }
             print(playerList);
@@ -279,7 +277,7 @@ public class MainGameManager : MonoBehaviourPunCallbacks
 
             if (killedPlayerRole == "Murderer") //need a delay before gameover check
             {
-                StartCoroutine(StartTimer("Villager",5));
+                StartCoroutine(StartTimer("Villager", 5));
             }
             else if(activePlayers.Count <= 2)
             {
@@ -350,24 +348,19 @@ public class MainGameManager : MonoBehaviourPunCallbacks
         float buttonY = 280f;
         foreach(string s in activePlayers)
         {
-            GameObject button = (GameObject)Instantiate(selectPlayerButtonPrefab); //dogru hizada instantiate et
+            GameObject button = (GameObject)Instantiate(selectPlayerButtonPrefab);
             button.transform.SetParent(gamePanel.transform.GetChild(0),false); //world positions stays=false
             button.GetComponentInChildren<Button>().name = s;
             button.GetComponentInChildren<Button>().onClick.AddListener(OnClickedPlayer);
             button.transform.GetChild(1).GetComponent<Text>().text = s;
             button.transform.localPosition = new Vector3(0, buttonY, button.transform.position.z);
-            voteButtons.Add(button); //isin bitince tum butonlari sil
+            voteButtons.Add(button);
             playerVoteCount.Add(s, 0);
             buttonY -= 110;
         }
         countDownText.gameObject.SetActive(true);
-        StartCoroutine(StartTimer("voteCountdown", 10));
+        StartCoroutine(StartTimer("voteCountdown", 60));
         //stage = 1;
-        //countdown baslat
-        //bitince en yuksek oylanan kisi activePlayerList'ten cikarilsin
-        //killer olduyse oyun bitsin
-        //day'i arttir
-        //killer'in oldurmesi icin menuyu ac
     }
 
     public void MakeKillButtons()
@@ -381,14 +374,14 @@ public class MainGameManager : MonoBehaviourPunCallbacks
             {
                 if(s != PhotonNetwork.NickName)
                 {
-                    GameObject button = (GameObject)Instantiate(selectPlayerButtonPrefab); //dogru hizada instantiate et
+                    GameObject button = (GameObject)Instantiate(selectPlayerButtonPrefab);
                     button.transform.SetParent(gamePanel.transform.GetChild(0), false); //world positions stays=false
                     button.GetComponentInChildren<Button>().name = s;
                     button.GetComponentInChildren<Button>().onClick.AddListener(OnClickedVictim); //listener is different than playerbuttons
                     button.transform.GetChild(1).GetComponent<Text>().text = s;
                     button.transform.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = "Kill";
                     button.transform.localPosition = new Vector3(0, buttonY, button.transform.position.z);
-                    voteButtons.Add(button); //isin bitince tum butonlari sil
+                    voteButtons.Add(button);
                     playerVoteCount.Add(s, 0);
                     buttonY -= 110;
                 }
@@ -403,7 +396,7 @@ public class MainGameManager : MonoBehaviourPunCallbacks
             }
         }
         countDownText.gameObject.SetActive(true);
-        StartCoroutine(StartTimer("voteCountdown", 10));
+        StartCoroutine(StartTimer("voteCountdown", 20));
         //stage = 0;
     }
 
