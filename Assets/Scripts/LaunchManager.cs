@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LaunchManager : MonoBehaviourPunCallbacks
 {
@@ -10,6 +11,7 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     public GameObject EnterGamePanel;
     public GameObject ConnectionStatusPanel;
     public GameObject LobbyPanel;
+    public InputField PlayerNameInputField;
 
     #region Unity Methods
     // Start is called before the first frame update
@@ -30,6 +32,11 @@ public class LaunchManager : MonoBehaviourPunCallbacks
     #region Public Methods
     public void ConnectToPhotonServer()
     {
+        if(string.IsNullOrEmpty(PlayerNameInputField.text))
+        {
+            PhotonNetwork.NickName = "User" + Random.Range(1, 1000);
+        }
+
         if(!PhotonNetwork.IsConnected)
         {
             PhotonNetwork.ConnectUsingSettings();
